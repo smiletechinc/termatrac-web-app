@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { Header } from '../components/header/Header'
-import { Footer } from '../components/footer/Footer'
-import { SearchView } from '../components/SearchView/SearchView'
-import { ResultView } from '../components/ResultView/ResultView'
+import styles from '../../styles/Home.module.css'
+import { Header } from '../../components/header/Header'
+import { Footer } from '../../components/footer/Footer'
+import { SearchView } from '../../components/SearchView/SearchView'
+import { ResultView } from '../../components/ResultView/ResultView'
 import { TextareaAutosize, Button } from '@material-ui/core';
 
-export default function Home() {
+export default function History() {
   return (
     <div className={styles.container}>
       <Head>
@@ -17,14 +17,7 @@ export default function Home() {
       </Head>
       <Header />
       <main className={styles.main}>
-        <left>
-            <SearchView />
-        </left>
-            <ResultView />
-        <right>
-          
-        </right>
-      
+      Page under construction
       </main>
       <Footer />
     </div>
