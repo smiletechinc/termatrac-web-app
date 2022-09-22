@@ -82,39 +82,20 @@ export const modelAddedHook = () => {
   };
 
   const modelAddedFunction = useCallback(async (modelObject: any) => {
-    // setIsSurahObject(false);
-    // setIsVerseObject(false);
-    // setIsVerseTransalte(false);
-    // console.log("app", app);
     const branch = `/ModelObject/`;
     if (app) {
       try {
         const db = getDatabase(app);
-        console.log("db", db);
-        // var key = app.child(ref(db, branch)).push().key;
-        // console.log("key", app.child("ModelObject").push());
-        // console.log("newKe", push(refV, "a").key)
 
-        var keyi = push(ref(db, branch)).key;
-        console.log("key", keyi);
-
-        var a = { ...modelObject, id: keyi };
-        const refV = ref(db, branch);
-        const branchSet = `/ModelObject/${keyi}`;
-        set(ref(db, branchSet), a).then(() => {
-          console.log("data done");
-        });
-        // get(ref(db,branch))
-        //   .then((snapshot) => {
-        //     if (snapshot.exists()) {
-        //       setVerseObject(snapshot.val());
-        //       setIsVerseObject(true);
-        //     }
-        //   })
-        //   .catch((error) => {
-        //     console.log("No data available", error);
-        //     setErrorStatus("No data available, Please Try Again Later!");
-        //   });
+        var modelId = push(ref(db, branch)).key;
+        var updatedModel = { ...modelObject, id: modelId };
+        set(ref(db, `/ModelObject/${modelId}`), updatedModel)
+          .then(() => {
+            console.log("data done");
+          })
+          .catch((error) => {
+            console.log("Data Not Inserted", error);
+          });
       } catch (error) {
         console.log("Error Finding Database");
       }
@@ -125,12 +106,5 @@ export const modelAddedHook = () => {
     modelAddedFunction,
     searchSurahName,
     searchAyatTranslation,
-    verseObject,
-    surahObject,
-    verseTranslateObject,
-    isVerseObject,
-    isSurahObject,
-    isVerseTranslate,
-    errorStatus,
   };
 };
