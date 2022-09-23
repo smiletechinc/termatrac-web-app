@@ -10,10 +10,21 @@ import { useEffect, useState } from "react";
 import { uploadFileHook } from "../../hooks/useDataUpload";
 import { modelAddedHook } from "../../hooks/ModelAddedFirebase";
 import FilePicker, { InputErrorCode } from "@mavedev/react-file-picker";
+import { connectStorageEmulator } from "firebase/storage";
 export default function Data() {
   const { dataUploadService, fileUrl } = uploadFileHook();
-  const { dataMetaUpload } = modelAddedHook();
+  const { dataMetaUpload, isDataObject, dataObjectData, dataObjectFetched } =
+    modelAddedHook();
   const [fileObject, setFile] = useState({});
+
+  useEffect(() => {
+    if (isDataObject) {
+      console.log("dataObject", dataObjectData);
+    } else {
+      dataObjectFetched();
+    }
+  }, [isDataObject]);
+
   useEffect(() => {
     if (fileUrl != "") {
       console.log("fileUrl", fileUrl);
@@ -24,6 +35,7 @@ export default function Data() {
         filePath: fileUrl,
       };
       dataMetaUpload(fileMeta);
+      setFile({});
     }
   }, [fileUrl]);
   const printAllErrors = (errorCode) => {

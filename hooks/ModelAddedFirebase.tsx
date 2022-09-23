@@ -6,7 +6,31 @@ export const modelAddedHook = () => {
   const [isModelObject, setIsModelObject] = useState(false);
   const [modelObjectData, setModelObjectData] = useState([]);
 
+  const [isDataObject, setIsDataObject] = useState(false);
+  const [dataObjectData, setDataObjectData] = useState([]);
+
+  const dataObjectFetched = useCallback(async () => {
+    setIsDataObject(false);
+    const branch = `/dataObject/`;
+    if (app) {
+      try {
+        const db = getDatabase(app);
+        get(ref(db, branch))
+          .then((snapShot) => {
+            setIsDataObject(true);
+            setDataObjectData(snapShot.val());
+          })
+          .catch((error) => {
+            console.log("Data Not Found", error);
+          });
+      } catch (error) {
+        console.log("Error Finding Database");
+      }
+    }
+  }, []);
+
   const dataMetaUpload = useCallback(async (dataMeta: any) => {
+    setIsDataObject(false);
     const branch = `/dataObject/`;
     if (app) {
       try {
@@ -16,6 +40,7 @@ export const modelAddedHook = () => {
         var updateData = { ...dataMeta, id: fileId };
         set(ref(db, `/dataObject/${fileId}`), updateData)
           .then(() => {
+            setIsDataObject(true);
             console.log("data done");
           })
           .catch((error) => {
@@ -71,8 +96,11 @@ export const modelAddedHook = () => {
   return {
     modelAddedFunction,
     modelObjectFetched,
+    dataObjectFetched,
     dataMetaUpload,
     isModelObject,
+    isDataObject,
     modelObjectData,
+    dataObjectData,
   };
 };
