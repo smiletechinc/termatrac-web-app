@@ -1,13 +1,26 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../../styles/Home.module.css'
-import { Header } from '../../components/header/Header'
-import { Footer } from '../../components/footer/Footer'
-import { SearchView } from '../../components/SearchView/SearchView'
-import { ResultView } from '../../components/ResultView/ResultView'
-import { TextareaAutosize, Button } from '@material-ui/core';
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../../styles/Home.module.css";
+import { Header } from "../../components/header/Header";
+import { Footer } from "../../components/footer/Footer";
+import { SearchView } from "../../components/SearchView/SearchView";
+import { ResultView } from "../../components/ResultView/ResultView";
+import { TextareaAutosize, Button } from "@material-ui/core";
+import { useEffect } from "react";
+import { modelAddedHook } from "../../hooks/ModelAddedFirebase";
 
 export default function History() {
+  const { modelObjectFetched, isModelObject, modelObjectData } =
+    modelAddedHook();
+
+  useEffect(() => {
+    if (!isModelObject) {
+      modelObjectFetched();
+    } else {
+      console.log("data", Object.values(modelObjectData));
+    }
+  }, [isModelObject]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,10 +29,8 @@ export default function History() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>
-      Page under construction
-      </main>
+      <main className={styles.main}>Page under construction</main>
       <Footer />
     </div>
-  )
+  );
 }
