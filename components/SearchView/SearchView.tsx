@@ -17,7 +17,7 @@ export interface SearchHeaderProps {
 export const SearchView: React.FC<SearchHeaderProps> = ({ text, setText }) => {
     return <Container maxWidth="lg">
         <Box p="40px 8px" display="flex" flexDirection="column" alignItems="center">
-            <Box m="16px 0 40px" component="h3" lineHeight="1.5">Data Object</Box>
+            <Box m="16px 0 40px" component="h3" lineHeight="1.5" style={{height:'75%'}}>Data Object</Box>
 
                 <TextareaAutosize
                 

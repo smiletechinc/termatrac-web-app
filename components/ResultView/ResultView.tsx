@@ -17,8 +17,11 @@ export interface SearchHeaderProps {
 export const ResultView: React.FC<SearchHeaderProps> = ({ text, setText }) => {
     return <Container maxWidth="lg">
         <Box p="40px 8px" display="flex" flexDirection="column" alignItems="center">
-            <Box m="16px 0 40px"  component="h3" lineHeight="1.5">Result Summary</Box>
+                                            <Box m="16px 0 40px"  component="h3" lineHeight="1.5"  style={{height:'75%'}} >Result Summary</Box>
+
                 <Box style={{ minHeight: '400px', borderRadius: '4px', padding: "2px 5px", marginBottom:4, border: "1px solid lightgray", width: '100%', alignItems:'center', justifyContent:'center' }}>
+                                <Box m="16px 0 40px"  component="h3" lineHeight="1.5"  style={{height:'75%'}} >Result Summary</Box>
+
                     Result Wil be displayed here
                 </Box>
 
