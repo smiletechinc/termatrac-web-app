@@ -1,13 +1,17 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import { Header } from '../components/header/Header'
-import { Footer } from '../components/footer/Footer'
-import { SearchView } from '../components/SearchView/SearchView'
-import { ResultView } from '../components/ResultView/ResultView'
-import { TextareaAutosize, Button } from '@material-ui/core';
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import { Header } from "../components/header/Header";
+import { Footer } from "../components/footer/Footer";
+import { SearchView } from "../components/SearchView/SearchView";
+import { ResultView } from "../components/ResultView/ResultView";
+import { TextareaAutosize, Button } from "@material-ui/core";
+import { useState } from "react";
 
 export default function Home() {
+  const [resultString, setResultString] = useState("");
+  const [resultData, setResultData] = useState({});
+
   return (
     <div className={styles.container}>
       <Head>
@@ -18,15 +22,15 @@ export default function Home() {
       <Header />
       <main className={styles.main}>
         <left>
-            <SearchView />
+          <SearchView
+            setResultString={setResultString}
+            setResultData={setResultData}
+          />
         </left>
-            <ResultView />
-        <right>
-          
-        </right>
-      
+        <ResultView text={resultString} />
+        <right></right>
       </main>
       <Footer />
     </div>
-  )
+  );
 }
