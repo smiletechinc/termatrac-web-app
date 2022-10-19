@@ -7,7 +7,7 @@ import Link from "next/link";
 export const Header = () => {
   return (
     <Box
-      bgcolor="green"
+      bgcolor="white"
       zIndex={HEADER_ZINDEX}
       boxShadow="0 0 2px lightgrey"
       top={0}
