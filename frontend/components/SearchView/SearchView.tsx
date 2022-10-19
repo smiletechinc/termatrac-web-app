@@ -53,6 +53,7 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
         <TextareaAutosize
           aria-label="Input JSON Object"
           minRows={24}
+          maxRows={30}
           placeholder="Inut data object"
           style={{
             borderRadius: "4px",
