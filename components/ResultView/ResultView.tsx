@@ -10,14 +10,21 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { TextareaAutosize, Button } from "@material-ui/core";
 import { modelAddedHook } from "../../hooks/ModelAddedFirebase";
+import { useEffect } from "react";
 
 export interface SearchHeaderProps {
   text: string;
-  setText: (val: SearchHeaderProps["text"]) => void;
+  // setText: (val: SearchHeaderProps["text"]) => void;
 }
 
-export const ResultView: React.FC<SearchHeaderProps> = ({ text, setText }) => {
+export const ResultView: React.FC<SearchHeaderProps> = ({ text }) => {
   const { modelAddedFunction } = modelAddedHook();
+
+  useEffect(() => {
+    if (text != "") {
+      console.log("text in result", text);
+    }
+  }, [text]);
   const buttonClick = () => {
     console.log("clicked");
     const modelObject = {
@@ -49,7 +56,7 @@ export const ResultView: React.FC<SearchHeaderProps> = ({ text, setText }) => {
             justifyContent: "center",
           }}
         >
-          Result Wil be displayed here
+          {text != "" ? JSON.parse(text) : "Result Wil be displayed here"}
         </Box>
 
         <Button
@@ -58,7 +65,7 @@ export const ResultView: React.FC<SearchHeaderProps> = ({ text, setText }) => {
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            alighSelf: "flex-end",
+            // alighSelf: "flex-end",
           }}
           onClick={buttonClick}
         >
