@@ -11,6 +11,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { TextareaAutosize, Button } from "@material-ui/core";
 import { sendDataObjectToApi } from "../../services/apiServices";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 export interface SearchHeaderProps {
   text: string;
@@ -25,9 +27,20 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
   setResultData,
 }) => {
   const [dataObjectValue, settDataObjectValue] = React.useState({});
+  const [modelType, setModelType] = React.useState("");
+  const options = ["rforest", "two", "three"];
+
+  const handleChange = (event) => {
+    console.log("even", event.value);
+    setModelType(event.value);
+  };
+
   const submitButtonFunction = async () => {
     if (Object.values(dataObjectValue).length > 0) {
-      const predictPayload = await sendDataObjectToApi(dataObjectValue);
+      const predictPayload = await sendDataObjectToApi(
+        dataObjectValue,
+        modelType
+      );
       setResultString(JSON.stringify(predictPayload.data));
     }
   };
@@ -46,10 +59,14 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
         flexDirection="column"
         alignItems="center"
       >
+        <Dropdown
+          options={options}
+          onChange={handleChange}
+          placeholder="ModelType"
+        />
         <Box m="16px 0 40px" component="h3" lineHeight="1.5">
           Data Object
         </Box>
-
         <TextareaAutosize
           aria-label="Input JSON Object"
           minRows={24}
