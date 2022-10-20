@@ -31,7 +31,6 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
   const options = ["rforest", "two", "three"];
 
   const handleChange = (event) => {
-    console.log("even", event.value);
     setModelType(event.value);
   };
 
@@ -46,8 +45,6 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
   };
   const handleOnChange = (event) => {
     if (event.target.value != "") {
-      console.log("Click");
-      console.log(event.target.value);
       settDataObjectValue(event.target.value);
     }
   };
