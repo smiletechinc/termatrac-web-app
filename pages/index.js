@@ -6,12 +6,30 @@ import { Footer } from "../components/footer/Footer";
 import { SearchView } from "../components/SearchView/SearchView";
 import { ResultView } from "../components/ResultView/ResultView";
 import { TextareaAutosize, Button } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { modelAddedHook } from "../hooks/ModelAddedFirebase";
 
 export default function Home() {
   const [resultString, setResultString] = useState("");
   const [resultData, setResultData] = useState({});
+  const { modelAddedFunction } = modelAddedHook();
 
+  // useEffect(() => {
+  //   console.log("result", resultData);
+  // }, [resultData]);
+
+  const resultButtonClick = () => {
+    const a = resultString.split(" ");
+    const a1 = a[a.length - 1];
+    console.log("clicked", resultData);
+    const modelObject = {
+      modelData: resultData.modelData,
+      modelType: resultData.modelType,
+      modelResult: resultString,
+      percantage: `${a1.replaceAll('"', "") * 100}%`,
+    };
+    modelAddedFunction(modelObject);
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -27,7 +45,7 @@ export default function Home() {
             setResultData={setResultData}
           />
         </left>
-        <ResultView text={resultString} />
+        <ResultView text={resultString} onPress={resultButtonClick} />
         <right></right>
       </main>
       <Footer />

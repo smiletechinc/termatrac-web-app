@@ -26,7 +26,7 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
   setResultString,
   setResultData,
 }) => {
-  const [dataObjectValue, settDataObjectValue] = React.useState({});
+  const [dataObjectValue, settDataObjectValue] = React.useState("");
   const [modelType, setModelType] = React.useState("");
   const options = ["rforest", "two", "three"];
 
@@ -35,12 +35,16 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
   };
 
   const submitButtonFunction = async () => {
-    if (Object.values(dataObjectValue).length > 0) {
+    if (dataObjectValue?.length > 0) {
       const predictPayload = await sendDataObjectToApi(
         dataObjectValue,
         modelType
       );
       setResultString(JSON.stringify(predictPayload.data));
+      setResultData({
+        modelType: modelType,
+        modelData: dataObjectValue,
+      });
     }
   };
   const handleOnChange = (event) => {

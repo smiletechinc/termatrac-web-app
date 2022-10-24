@@ -8,16 +8,22 @@ import { ResultView } from "../../components/ResultView/ResultView";
 import { TextareaAutosize, Button } from "@material-ui/core";
 import { useEffect } from "react";
 import { modelAddedHook } from "../../hooks/ModelAddedFirebase";
+import {
+  ModelDataObjectList,
+  ModelDataObjectHeader,
+  ModelDataObjectItem,
+  ModelDataObjectItemContainer,
+  JobTag,
+  JobTags,
+} from "./styles";
 
 export default function History() {
   const { modelObjectFetched, isModelObject, modelObjectData } =
     modelAddedHook();
-
+  const bgColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
   useEffect(() => {
     if (!isModelObject) {
       modelObjectFetched();
-    } else {
-      console.log("data", Object.values(modelObjectData));
     }
   }, [isModelObject]);
 
@@ -29,7 +35,28 @@ export default function History() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className={styles.main}>Page under construction</main>
+
+      <main className={styles.main}>
+        <ModelDataObjectList>
+          {Object.values(modelObjectData).map((item) => {
+            console.log("item", item.percantage);
+            return (
+              <ModelDataObjectItemContainer target="_blank">
+                <ModelDataObjectHeader bgColor={bgColor}>
+                  {" "}
+                  <strong>{item.modelType}</strong>{" "}
+                </ModelDataObjectHeader>
+                <section>
+                  <ModelDataObjectItem>
+                    <strong>{item.percantage}</strong>
+                    <p>{item.modelData}</p>
+                  </ModelDataObjectItem>
+                </section>
+              </ModelDataObjectItemContainer>
+            );
+          })}
+        </ModelDataObjectList>
+      </main>
       <Footer />
     </div>
   );

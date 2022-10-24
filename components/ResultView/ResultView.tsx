@@ -9,30 +9,21 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { TextareaAutosize, Button } from "@material-ui/core";
-import { modelAddedHook } from "../../hooks/ModelAddedFirebase";
 import { useEffect } from "react";
 
 export interface SearchHeaderProps {
   text: string;
+  onPress: any;
   // setText: (val: SearchHeaderProps["text"]) => void;
 }
 
-export const ResultView: React.FC<SearchHeaderProps> = ({ text }) => {
-  const { modelAddedFunction } = modelAddedHook();
-
+export const ResultView: React.FC<SearchHeaderProps> = ({ text, onPress }) => {
   useEffect(() => {
     if (text != "") {
       console.log("text in result", text);
     }
   }, [text]);
-  const buttonClick = () => {
-    console.log("clicked");
-    const modelObject = {
-      modelName: "abx",
-      modelType: "xyz",
-    };
-    modelAddedFunction(modelObject);
-  };
+
   return (
     <Container maxWidth="lg">
       <Box
@@ -67,7 +58,7 @@ export const ResultView: React.FC<SearchHeaderProps> = ({ text }) => {
             justifyContent: "flex-end",
             // alighSelf: "flex-end",
           }}
-          onClick={buttonClick}
+          onClick={onPress}
         >
           Save
         </Button>
