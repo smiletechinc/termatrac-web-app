@@ -1,3 +1,4 @@
+import React from "react";
 import Box from "@material-ui/core/Box";
 import { HEADER_HEIGHT, HEADER_ZINDEX } from "./../../constants/constants";
 import Image from "next/image";

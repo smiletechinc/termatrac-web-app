@@ -27,24 +27,28 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
   setResultData,
 }) => {
   const [dataObjectValue, settDataObjectValue] = React.useState("");
-  const [modelType, setModelType] = React.useState("");
+  const [modelName, setModelName] = React.useState("");
   const options = ["rforest", "two", "three"];
 
   const handleChange = (event) => {
-    setModelType(event.value);
+    setModelName(event.value);
   };
 
   const submitButtonFunction = async () => {
-    if (dataObjectValue?.length > 0) {
-      const predictPayload = await sendDataObjectToApi(
-        dataObjectValue,
-        modelType
-      );
-      setResultString(JSON.stringify(predictPayload.data));
-      setResultData({
-        modelType: modelType,
-        modelData: dataObjectValue,
-      });
+    if (modelName === "") {
+      alert("Please Enter the modelName");
+    } else {
+      if (dataObjectValue?.length > 0) {
+        const predictPayload = await sendDataObjectToApi(
+          dataObjectValue,
+          modelName
+        );
+        setResultString(JSON.stringify(predictPayload.data));
+        setResultData({
+          modelName: modelName,
+          modelData: dataObjectValue,
+        });
+      }
     }
   };
   const handleOnChange = (event) => {
@@ -63,7 +67,7 @@ export const SearchView: React.FC<SearchHeaderProps> = ({
         <Dropdown
           options={options}
           onChange={handleChange}
-          placeholder="ModelType"
+          placeholder="modelName"
         />
         <Box m="16px 0 40px" component="h3" lineHeight="1.5">
           Data Object

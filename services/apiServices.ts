@@ -1,11 +1,12 @@
+import React from "react";
 import axios from "axios";
 
 const BASE_URL = "http://107.20.88.70:8080/infer_termite_rforest";
 
 export const sendDataObjectToApi: (
   dataObject: string,
-  modelType: string
-) => Promise<any> = (dataObject, modelType) => {
+  modelName: string
+) => Promise<any> = (dataObject, modelName) => {
   return new Promise(async (resolve, reject) => {
     console.log("api", `"${dataObject}"`);
     try {
@@ -15,7 +16,7 @@ export const sendDataObjectToApi: (
       };
       const Axiosbody = {
         features: JSON.parse(dataObject),
-        model: modelType,
+        model: modelName,
       };
       await axios
         .post(BASE_URL, Axiosbody, {

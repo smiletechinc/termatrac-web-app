@@ -14,21 +14,22 @@ export default function Home() {
   const [resultData, setResultData] = useState({});
   const { modelAddedFunction } = modelAddedHook();
 
-  // useEffect(() => {
-  //   console.log("result", resultData);
-  // }, [resultData]);
-
   const resultButtonClick = () => {
-    const a = resultString.split(" ");
-    const a1 = a[a.length - 1];
-    console.log("clicked", resultData);
-    const modelObject = {
-      modelData: resultData.modelData,
-      modelType: resultData.modelType,
-      modelResult: resultString,
-      percantage: `${a1.replaceAll('"', "") * 100}%`,
-    };
-    modelAddedFunction(modelObject);
+    console.log("resultString", resultString);
+    console.log("resultData", Object.values(resultData).length);
+    if (resultString != "" && Object.values(resultData).length > 0) {
+      const a = resultString.split(" ");
+      const a1 = a[a.length - 1];
+      console.log("clicked", resultData);
+      const modelObject = {
+        modelData: resultData.modelData,
+        modelName: resultData.modelName,
+        modelType: "None", // when the api return type of model, then it will send for firebase in it.
+        modelResult: resultString,
+        percantage: `${a1.replaceAll('"', "") * 100}%`,
+      };
+      modelAddedFunction(modelObject);
+    }
   };
   return (
     <div className={styles.container}>

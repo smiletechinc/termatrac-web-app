@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
@@ -38,23 +39,24 @@ export default function History() {
 
       <main className={styles.main}>
         <ModelDataObjectList>
-          {Object.values(modelObjectData).map((item) => {
-            console.log("item", item.percantage);
-            return (
-              <ModelDataObjectItemContainer target="_blank">
-                <ModelDataObjectHeader bgColor={bgColor}>
-                  {" "}
-                  <strong>{item.modelType}</strong>{" "}
-                </ModelDataObjectHeader>
-                <section>
-                  <ModelDataObjectItem>
-                    <strong>{item.percantage}</strong>
-                    <p>{item.modelData}</p>
-                  </ModelDataObjectItem>
-                </section>
-              </ModelDataObjectItemContainer>
-            );
-          })}
+          {modelObjectData &&
+            Object.values(modelObjectData).map((item) => {
+              console.log("item", item.percantage);
+              return (
+                <ModelDataObjectItemContainer target="_blank">
+                  <ModelDataObjectHeader bgColor={bgColor}>
+                    <strong>{item.modelName}</strong>{" "}
+                  </ModelDataObjectHeader>
+                  <section>
+                    <ModelDataObjectItem>
+                      <strong>{item.modelType}</strong>
+                      <strong>{item.percantage}</strong>
+                      <p>{item.modelData}</p>
+                    </ModelDataObjectItem>
+                  </section>
+                </ModelDataObjectItemContainer>
+              );
+            })}
         </ModelDataObjectList>
       </main>
       <Footer />
