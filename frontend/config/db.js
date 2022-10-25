@@ -1,4 +1,5 @@
-import { FirebaseApp, initializeApp, getApps } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
+import * as FirebaseApp from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -11,6 +12,6 @@ const firebaseConfig = {
   measurementId: "G-JVVNXCN730",
 };
 
-let app = FirebaseApp ? FirebaseApp() : initializeApp(firebaseConfig);
+let app = initializeApp(firebaseConfig);
 // let app = firebase.initializeApp(firebaseConfig)
 export default app;

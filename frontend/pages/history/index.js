@@ -14,9 +14,7 @@ import {
   ModelDataObjectHeader,
   ModelDataObjectItem,
   ModelDataObjectItemContainer,
-  JobTag,
-  JobTags,
-} from "./styles";
+} from "../../styles/styles";
 
 export default function History() {
   const { modelObjectFetched, isModelObject, modelObjectData } =
@@ -43,7 +41,7 @@ export default function History() {
             Object.values(modelObjectData).map((item) => {
               console.log("item", item.percantage);
               return (
-                <ModelDataObjectItemContainer target="_blank">
+                <ModelDataObjectItemContainer key={item.id} target="_blank">
                   <ModelDataObjectHeader bgColor={bgColor}>
                     <strong>{item.modelName}</strong>{" "}
                   </ModelDataObjectHeader>
