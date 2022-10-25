@@ -1,0 +1,99 @@
+import React from "react";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Input from "@material-ui/core/Input";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import IconButton from "@material-ui/core/IconButton";
+import Search from "@material-ui/icons/Search";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormLabel from "@material-ui/core/FormLabel";
+import { TextareaAutosize, Button } from "@material-ui/core";
+import { sendDataObjectToApi } from "../../services/apiServices";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+
+export interface SearchHeaderProps {
+  text: string;
+  setText: (val: SearchHeaderProps["text"]) => void;
+  setResultString: any;
+  setResultData: any;
+}
+export const SearchView: React.FC<SearchHeaderProps> = ({
+  text,
+  setText,
+  setResultString,
+  setResultData,
+}) => {
+  const [dataObjectValue, settDataObjectValue] = React.useState("");
+  const [modelName, setModelName] = React.useState("");
+  const options = ["rforest", "two", "three"];
+
+  const handleChange = (event) => {
+    setModelName(event.value);
+  };
+
+  const submitButtonFunction = async () => {
+    if (modelName === "") {
+      alert("Please Enter the modelName");
+    } else {
+      if (dataObjectValue?.length > 0) {
+        const predictPayload = await sendDataObjectToApi(
+          dataObjectValue,
+          modelName
+        );
+        setResultString(JSON.stringify(predictPayload.data));
+        setResultData({
+          modelName: modelName,
+          modelData: dataObjectValue,
+        });
+      }
+    }
+  };
+  const handleOnChange = (event) => {
+    if (event.target.value != "") {
+      settDataObjectValue(event.target.value);
+    }
+  };
+  return (
+    <Container maxWidth="lg">
+      <Box
+        p="40px 8px"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+      >
+        <Dropdown
+          options={options}
+          onChange={handleChange}
+          placeholder="modelName"
+        />
+        <Box m="16px 0 40px" component="h3" lineHeight="1.5">
+          Data Object
+        </Box>
+        <TextareaAutosize
+          aria-label="Input JSON Object"
+          minRows={24}
+          maxRows={30}
+          placeholder="Inut data object"
+          style={{
+            borderRadius: "4px",
+            padding: "2px 5px",
+            border: "1px solid lightgray",
+            width: "100%",
+          }}
+          onChange={handleOnChange}
+        />
+        <Button
+          value={text}
+          variant="outlined"
+          color="primary"
+          onClick={submitButtonFunction}
+        >
+          Submit
+        </Button>
+      </Box>
+    </Container>
+  );
+};
