@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 // material
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import { Grid, Container } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+
 // components
 import Page from "../components/Page";
-import {
-  ContactHero,
-  SearchView,
-  ContactMap,
-  ResultView
-} from "../components/_external-pages/termatrac";
-
+import useModelAdded from "../hooks/useMetaData";
+import EmptyContent from "components/EmptyContent";
+import HistoryDisplayCard from "components/_external-pages/history/historyDisplayCard";
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -23,20 +22,42 @@ const RootStyle = styled(Page)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function History() {
-  const [resultString, setResultString] = useState("");
-  const [resultData, setResultData] = useState({});
+  const { modelObjectFetched, isModelObject, modelObjectData } = useModelAdded();
+  const theme = useTheme();
+
+  useEffect(() => {
+    if (!isModelObject) {
+      modelObjectFetched();
+    }
+  }, [isModelObject]);
+
+  useEffect(() => {
+    if (Object.values(modelObjectData).length > 0) {
+      console.log("hello", Object.values(modelObjectData));
+    }
+  }, [modelObjectData]);
 
   return (
     <RootStyle title="Contact us | Minimal-UI">
       <Container sx={{ my: 10 }}>
-        <Grid container spacing={10}>
-          <Grid item xs={12} md={6}>
-            <SearchView setResultString={setResultString} setResultData={setResultData} />
+        {Object.values(modelObjectData).length > 0 ? (
+          <Grid container spacing={4} my={12}>
+            {Object.values(modelObjectData).map((value: any) => {
+              let n = value.percantage.split("%");
+              const CHART_DATA = [Number(n[0])];
+              return (
+                <HistoryDisplayCard
+                  modelName={value.modelName}
+                  modelType={value.modelType}
+                  ChartData={Number(n[0])}
+                  modelData={value.modelData}
+                />
+              );
+            })}
           </Grid>
-          <Grid item xs={12} md={6}>
-            <ResultView resultString={resultString} resultData={resultData} />
-          </Grid>
-        </Grid>
+        ) : (
+          <EmptyContent title="History" description="No History Available" />
+        )}
       </Container>
     </RootStyle>
   );
