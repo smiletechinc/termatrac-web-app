@@ -1,24 +1,25 @@
 import axios from "axios";
 
-const BASE_URL = "http://107.20.88.70:8080/infer_termite_rforest";
+const BASE_URL = "http://107.20.88.70:8080/infer_termite";
 
 export const sendDataObjectToApi: (dataObject: string, modelName: string) => Promise<any> = (
-  dataObject, modelName
+  dataObject,
+  modelName
 ) => {
   return new Promise(async (resolve, reject) => {
     console.log("api", dataObject);
     try {
       var headers = {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        Accept: "application/json"
       };
       const Axiosbody = {
         features: JSON.parse(dataObject),
-        model: "rforest",
+        model: "rforest"
       };
       await axios
         .post(BASE_URL, Axiosbody, {
-          headers: headers,
+          headers: headers
         })
         .then((resonse) => {
           console.log("resposnee", resonse);
