@@ -60,10 +60,7 @@ const SearchView: React.FC<SearchHeaderProps> = ({
         );
 
         setResultString(JSON.stringify(predictPayload.data));
-        setResultData({
-          modelName: modelName,
-          modelData: 83,
-        });
+        setResultData(predictPayload.data);
       }
     }
   };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://107.20.88.70:8080/infer_termite";
+const BASE_URL = "http://107.20.88.70:9002/infer_termite";
 
 export const sendDataObjectToApi: (dataObject: string, modelName: string) => Promise<any> = (
   dataObject,
@@ -11,7 +11,10 @@ export const sendDataObjectToApi: (dataObject: string, modelName: string) => Pro
     try {
       var headers = {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        'Access-Control-Allow-Origin': 'http://localhost:3000/',
+        'Access-Control-Allow-Credentials': 'true',
+        'strict-origin-when-cross-origin': 'false'
       };
       const Axiosbody = {
         features: JSON.parse(dataObject),

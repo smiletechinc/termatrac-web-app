@@ -102,7 +102,8 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultString, resultData }) =
             color: (theme) => (theme.palette.mode === "light" ? "text.secondary" : "common.white")
           }}
         >
-          {resultString !== "" ? resultString : "Result Wil be displayed here"}
+          {/* {resultString !== "" ? resultString : "Result Wil be displayed here"} */}
+          {resultData && resultData.Class ? `Detected termite type is of Class ${resultData.Class} with accuracy of ${resultData.Accuracy}` : `Result Wil be displayed here` }
         </Typography>
       </MotionInView>
 
