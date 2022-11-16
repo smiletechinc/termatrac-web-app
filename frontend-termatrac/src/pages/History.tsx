@@ -32,7 +32,7 @@ export default function History() {
   }, [isModelObject]);
 
   useEffect(() => {
-    if (Object.values(modelObjectData).length > 0) {
+    if (modelObjectData && Object.values(modelObjectData).length > 0) {
       console.log("hello", Object.values(modelObjectData));
     }
   }, [modelObjectData]);
@@ -40,7 +40,7 @@ export default function History() {
   return (
     <RootStyle title="Contact us | Minimal-UI">
       <Container sx={{ my: 10 }}>
-        {Object.values(modelObjectData).length > 0 ? (
+        {modelObjectData && Object.values(modelObjectData).length > 0 ? (
           <Grid container spacing={4} my={12}>
             {Object.values(modelObjectData).map((value: any) => {
               let n = value.percantage.split("%");
@@ -48,7 +48,7 @@ export default function History() {
               return (
                 <HistoryDisplayCard
                   modelName={value.modelName}
-                  modelType={value.modelType}
+                  modelType={value.modelResult}
                   ChartData={Number(n[0])}
                   modelData={value.modelData}
                 />

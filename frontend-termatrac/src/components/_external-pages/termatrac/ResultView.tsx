@@ -18,8 +18,9 @@ import {
 import { Box, Grid, Container, LinearProgress } from "@mui/material";
 import { varFadeInUp, varFadeInRight, MotionInView } from "../../animate";
 // utils
-import { fPercent } from "../../../utils/formatNumber";
+import { fPercent, fNumber } from "../../../utils/formatNumber";
 import mockData from "../../../utils/mock-data";
+import useModelAdded from "../../../hooks/useMetaData";
 
 // ----------------------------------------------------------------------
 
@@ -40,32 +41,32 @@ const OPTIONS = [
 export interface SearchHeaderProps {
   resultString: string;
   resultData: any;
+  modelName: string;
+  modelData: any;
 }
 
-const ResultView: React.FC<SearchHeaderProps> = ({ resultString, resultData }) => {
+const ResultView: React.FC<SearchHeaderProps> = ({
+  resultString,
+  resultData,
+  modelName,
+  modelData
+}) => {
   type ProgressItemProps = {
     progress: {
       label: string;
       value: number;
     };
   };
+  const { modelAddedFunction } = useModelAdded();
 
   const saveButtonFunction = async () => {
-    console.log("resultData", resultData);
-    // if (selectedIndex === 0) {
-    //   setError("Please Select a model");
-    // } else {
-    //   setError("");
-    //   if (dataObjectValue?.length > 0) {
-    //     const predictPayload = await sendDataObjectToApi(dataObjectValue, modelName);
-
-    //     setResultString(JSON.stringify(predictPayload.data));
-    //     setResultData({
-    //       modelName: modelName,
-    //       modelData: 83
-    //     });
-    //   }
-    // }
+    const modelObject = {
+      modelData: modelData,
+      modelName: modelName,
+      modelResult: resultData,
+      percantage: fPercent(resultData.Accuracy * 100)
+    };
+    modelAddedFunction(modelObject);
   };
 
   function ProgressItem({ progress }: ProgressItemProps) {
@@ -102,28 +103,21 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultString, resultData }) =
             color: (theme) => (theme.palette.mode === "light" ? "text.secondary" : "common.white")
           }}
         >
-          {/* {resultString !== "" ? resultString : "Result Wil be displayed here"} */}
-          {resultData && resultData.Class ? `Detected termite type is of Class ${resultData.Class} with accuracy of ${resultData.Accuracy}` : `Result Wil be displayed here` }
+          {resultData && resultData.Class
+            ? `Detected termite type is of Class ${resultData.Class} with accuracy of ${resultData.Accuracy}`
+            : `Result Wil be displayed here`}
         </Typography>
       </MotionInView>
 
       {resultString && (
         <Box sx={{ my: 5 }}>
           <MotionInView key={"Accuracy"} variants={varFadeInRight}>
-            <ProgressItem progress={{ label: "Accuracy", value: 83.6 }} />
+            <ProgressItem progress={{ label: "Accuracy", value: resultData.Accuracy * 100 }} />
           </MotionInView>
         </Box>
       )}
 
       <MotionInView variants={varFadeInRight}>
-        {/* <Button
-                variant="contained"
-                color="inherit"
-                
-                onclick={saveButtonFunction}
->
-                Save
-              </Button> */}
         <Button
           size="large"
           variant="contained"

@@ -79,19 +79,17 @@ const HistoryDisplayCard: React.FC<SearchHeaderProps> = ({
           name: { offsetY: -16 },
           value: { offsetY: 8 },
           total: {
-            label: "Type"
+            label: Object.values(modelType)[1]
           }
         }
       }
     }
   });
+  // console.log("modelType", Object.values(modelType)[1]);
   return (
     <Grid item xs={12} md={4}>
       <Card sx={{ mb: 4, mr: 4, bgcolor: "#C8FACD" }}>
         <CardHeader title={modelName} sx={{ mb: 4, borderWidth: 2 }} />
-        <Typography variant="subtitle2" sx={{ ml: 4, color: "text.primrary" }}>
-          {modelType}
-        </Typography>
         <ReactApexChart
           type="radialBar"
           label="Type"

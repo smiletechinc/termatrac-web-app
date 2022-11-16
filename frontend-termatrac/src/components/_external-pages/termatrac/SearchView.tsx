@@ -19,19 +19,31 @@ import { sendDataObjectToApi } from "../../../services/apiServices";
 
 // ----------------------------------------------------------------------
 
-const OPTIONS = ["Please Select modal", "rforest", "lireg", "naive", "logreg"];
+const OPTIONS = [
+  "Please Select modal",
+  "Random Forest",
+  "Naive Bayes",
+  "Logistic Regression",
+  "K-Nearest Neighbor"
+];
 
 interface SearchHeaderProps {
   setResultString: (result: string) => void;
   setResultData: (result: Object) => void;
+  setModelNameValue: (result: string) => void;
+  setModelData: (result: Object) => void;
 }
 
-const SearchView: React.FC<SearchHeaderProps> = ({ setResultString, setResultData }) => {
+const SearchView: React.FC<SearchHeaderProps> = ({
+  setResultString,
+  setResultData,
+  setModelNameValue,
+  setModelData
+}) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
   const [isOpen, setOpen] = useState<null | HTMLElement>(null);
   const [dataObjectValue, settDataObjectValue] = useState("");
-  const [modelName, setModelName] = useState("");
   const [error, setError] = useState("");
   const handleClose = () => {
     setOpen(null);
@@ -39,10 +51,6 @@ const SearchView: React.FC<SearchHeaderProps> = ({ setResultString, setResultDat
   const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
     setOpenList(event.currentTarget);
   };
-
-  // const handleChange = (event: React.MouseEvent<HTMLElement>) => {
-  //   setModelName(event.value);
-  // };
 
   const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
     setSelectedIndex(index);
@@ -54,9 +62,18 @@ const SearchView: React.FC<SearchHeaderProps> = ({ setResultString, setResultDat
       setError("Please Select a model");
     } else {
       setError("");
+      let modelName;
+      selectedIndex === 1
+        ? (modelName = "rforest")
+        : selectedIndex === 2
+        ? (modelName = "naive")
+        : selectedIndex === 3
+        ? (modelName = "logreg")
+        : (modelName = "knn");
       if (dataObjectValue?.length > 0) {
         const predictPayload = await sendDataObjectToApi(dataObjectValue, modelName);
-
+        setModelNameValue(modelName);
+        setModelData(dataObjectValue);
         setResultString(JSON.stringify(predictPayload.data));
         setResultData(predictPayload.data);
       }

@@ -7,18 +7,18 @@ export const sendDataObjectToApi: (dataObject: string, modelName: string) => Pro
   modelName
 ) => {
   return new Promise(async (resolve, reject) => {
-    console.log("api", dataObject);
+    const Axiosbody = {
+      features: JSON.parse(dataObject),
+      model: modelName
+    };
+    console.log("api", Axiosbody);
     try {
       var headers = {
         "Content-Type": "application/json",
         Accept: "application/json",
-        'Access-Control-Allow-Origin': 'http://localhost:3000/',
-        'Access-Control-Allow-Credentials': 'true',
-        'strict-origin-when-cross-origin': 'false'
-      };
-      const Axiosbody = {
-        features: JSON.parse(dataObject),
-        model: "rforest"
+        "Access-Control-Allow-Origin": "http://localhost:3000/",
+        "Access-Control-Allow-Credentials": "true",
+        "strict-origin-when-cross-origin": "false"
       };
       await axios
         .post(BASE_URL, Axiosbody, {

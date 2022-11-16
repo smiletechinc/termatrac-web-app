@@ -39,18 +39,13 @@ export default function useModelAdded() {
       const db = app1.database();
       var modelId = db.ref(branch).push().key;
       var updatedModel = { ...modelObject, id: modelId };
+      console.log("updatedModel", updatedModel);
       const dataAddedRef = db.ref(`/ModelObject/${modelId}`);
+      console.log("dataAddedRef", dataAddedRef);
       dataAddedRef
         .set(updatedModel)
         .then(() => console.log("data added"))
         .catch((error) => console.log("error", error));
-      // set(ref(db, `/ModelObject/${modelId}`), updatedModel)
-      //   .then(() => {
-      //     console.log("data done");
-      //   })
-      //   .catch((error) => {
-      //     console.log("Data Not Inserted", error);
-      //   });
     } catch (error) {
       console.log("Error Finding Database");
     }
