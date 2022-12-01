@@ -33,7 +33,7 @@ export default function History() {
 
   useEffect(() => {
     if (modelObjectData && Object.values(modelObjectData).length > 0) {
-      console.log("hello", Object.values(modelObjectData));
+      // console.log("hello", Object.values(modelObjectData));
     }
   }, [modelObjectData]);
 

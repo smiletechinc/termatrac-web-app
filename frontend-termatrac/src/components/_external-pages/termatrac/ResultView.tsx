@@ -1,22 +1,11 @@
 import { useState } from "react";
 import { Icon } from "@iconify/react";
-import roundArrowRightAlt from "@iconify/icons-ic/round-arrow-right-alt";
 import iconUpload from "@iconify/icons-ic/file-upload";
 // material
-import {
-  Button,
-  Typography,
-  TextField,
-  Stack,
-  List,
-  ListItemButton,
-  ListItemText,
-  Menu,
-  MenuItem
-} from "@mui/material";
+import { Button, Typography, Stack } from "@mui/material";
 
-import { Box, Grid, Container, LinearProgress } from "@mui/material";
-import { varFadeInUp, varFadeInRight, MotionInView } from "../../animate";
+import { Box, LinearProgress } from "@mui/material";
+import { varFadeInRight, MotionInView } from "../../animate";
 // utils
 import { fPercent, fNumber } from "../../../utils/formatNumber";
 import mockData from "../../../utils/mock-data";

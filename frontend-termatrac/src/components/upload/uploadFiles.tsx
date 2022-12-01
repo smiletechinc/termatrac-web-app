@@ -1,12 +1,29 @@
 import { isString } from "lodash";
+import { Icon } from "@iconify/react";
 import { useDropzone, DropzoneOptions } from "react-dropzone";
+import fileFill from "@iconify/icons-eva/file-fill";
+import closeFill from "@iconify/icons-eva/close-fill";
+import { motion, AnimatePresence } from "framer-motion";
 // material
-import { alpha, styled } from "@mui/material/styles";
-import { Box, Theme, Typography, Paper } from "@mui/material";
+import { alpha, Theme, styled } from "@mui/material/styles";
+import {
+  Box,
+  List,
+  Stack,
+  Paper,
+  Button,
+  ListItem,
+  Typography,
+  ListItemIcon,
+  ListItemText,
+  ListItemSecondaryAction
+} from "@mui/material";
 import { SxProps } from "@mui/system";
 // utils
 import { fData } from "../../utils/formatNumber";
 //
+import { MIconButton } from "../@material-extend";
+import { varFadeInRight } from "../animate";
 import { UploadIllustration } from "../../assets";
 
 // ----------------------------------------------------------------------
@@ -14,21 +31,15 @@ import { UploadIllustration } from "../../assets";
 const DropZoneStyle = styled("div")(({ theme }) => ({
   outline: "none",
   display: "flex",
-  overflow: "hidden",
   textAlign: "center",
-  position: "relative",
   alignItems: "center",
   flexDirection: "column",
   justifyContent: "center",
-  padding: theme.spacing(5, 0),
+  padding: theme.spacing(5, 1),
   borderRadius: theme.shape.borderRadius,
-  transition: theme.transitions.create("padding"),
   backgroundColor: theme.palette.background.neutral,
   border: `1px dashed ${theme.palette.grey[500_32]}`,
-  "&:hover": {
-    opacity: 0.72,
-    cursor: "pointer"
-  },
+  "&:hover": { opacity: 0.72, cursor: "pointer" },
   [theme.breakpoints.up("md")]: { textAlign: "left", flexDirection: "row" }
 }));
 
@@ -39,20 +50,23 @@ interface CustomFile extends File {
   preview?: string;
 }
 
-interface UploadSingleFileProps extends DropzoneOptions {
+interface UploadMultiFileProps extends DropzoneOptions {
   error?: boolean;
-  file: CustomFile | string | null;
+  files: (File | string)[];
+  showPreview: boolean;
   sx?: SxProps<Theme>;
 }
 
-export default function UploadSingleFile({
-  error = false,
-  file,
+export default function UploadFiles({
+  error,
+  showPreview = false,
+  files,
   sx,
   ...other
-}: UploadSingleFileProps) {
+}: UploadMultiFileProps) {
+  const hasFile = files.length > 0;
+
   const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
-    multiple: false,
     ...other
   });
 
@@ -95,8 +109,7 @@ export default function UploadSingleFile({
             color: "error.main",
             borderColor: "error.light",
             bgcolor: "error.lighter"
-          }),
-          ...(file && { padding: "12% 0" })
+          })
         }}
       >
         <input {...getInputProps()} />
@@ -120,22 +133,6 @@ export default function UploadSingleFile({
             &nbsp;thorough your machine
           </Typography>
         </Box>
-
-        {file && (
-          <Box
-            component="img"
-            alt="file preview"
-            src={isString(file) ? file : file.preview}
-            sx={{
-              top: 8,
-              borderRadius: 1,
-              objectFit: "cover",
-              position: "absolute",
-              width: "calc(100% - 16px)",
-              height: "calc(100% - 16px)"
-            }}
-          />
-        )}
       </DropZoneStyle>
 
       {fileRejections.length > 0 && <ShowRejectionItems />}
