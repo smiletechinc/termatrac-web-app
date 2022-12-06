@@ -25,7 +25,7 @@ export const sendDataObjectToApi: (dataObject: string, modelName: string) => Pro
           headers: headers
         })
         .then((resonse) => {
-          console.log("resposnee", resonse);
+          // console.log("resposnee", resonse);
           resolve(resonse);
         })
         .catch((e) => {

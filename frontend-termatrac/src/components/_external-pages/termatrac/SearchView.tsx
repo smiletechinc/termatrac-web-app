@@ -29,29 +29,23 @@ const OPTIONS = [
 ];
 
 interface SearchHeaderProps {
-  setResultString: (result: string) => void;
-  setResultData: (result: Object) => void;
-  setModelNameValue: (result: string) => void;
-  setModelData: (result: Object) => void;
+  setResultArrayValues: (result: any) => void;
 }
 interface CustomFile extends File {
   path?: string;
   preview?: string;
 }
-const SearchView: React.FC<SearchHeaderProps> = ({
-  setResultString,
-  setResultData,
-  setModelNameValue,
-  setModelData
-}) => {
+const SearchView: React.FC<SearchHeaderProps> = ({ setResultArrayValues }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isOpenList, setOpenList] = useState<null | HTMLElement>(null);
   const [dataObjectValue, settDataObjectValue] = useState("");
   const [error, setError] = useState("");
   const [files, setFiles] = useState<(File | string)[]>([]);
   const [preview, setPreview] = useState(false);
+  const [fileName, setFileName] = useState("");
   const [openUploadModal, setOpenUploadModal] = useState(false);
   const [apiFunctionCalled, setAPIFunctionCalled] = useState(false);
+  const [responseArray, setResponseArray] = useState([]);
 
   useEffect(() => {
     if (files.length > 0 && openUploadModal) {
@@ -99,39 +93,45 @@ const SearchView: React.FC<SearchHeaderProps> = ({
         : selectedIndex === 3
         ? (modelName = "logreg")
         : (modelName = "knn");
+
       setAPIFunctionCalled(false);
       const predictPayload = await sendDataObjectToApi(dataObjectValue, modelName);
-      setModelNameValue(modelName);
-      setModelData(dataObjectValue);
-      setResultString(JSON.stringify(predictPayload.data));
-      setResultData(predictPayload.data);
+      const predictObject: any = {
+        Data: predictPayload.data,
+        modelData: dataObjectValue,
+        modelNameValue: modelName,
+        fileName: fileName != "" ? fileName : "None.csv",
+        dataValueString: JSON.stringify(predictPayload.data)
+      };
+      const arr: any = responseArray;
+      arr.push(predictObject);
+      setResponseArray(arr);
+      setResultArrayValues(Object.values(arr));
+      settDataObjectValue("");
     }
   };
   const submitButtonFunction = async () => {
     if (selectedIndex === 0) {
       setError("Please Select a model");
     } else {
+      // alert("Wait for Checking Results");
       setError("");
-      let modelName;
-      selectedIndex === 1
-        ? (modelName = "rforest")
-        : selectedIndex === 2
-        ? (modelName = "naive")
-        : selectedIndex === 3
-        ? (modelName = "logreg")
-        : (modelName = "knn");
       if (dataObjectValue?.length > 0) {
         setAPIFunctionCalled(true);
       } else if (files.length > 0) {
-        const file = files[0];
-        var reader = new FileReader();
-        reader.onload = function (e) {
-          var content = reader.result;
-          console.log("tupe", typeof content);
-          settDataObjectValue(content as string);
-          setAPIFunctionCalled(true);
-        };
-        reader.readAsText(file as File);
+        files.map((file: any) => {
+          const fN: any = Object.values(file)[0];
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var content = reader.result;
+            setFileName(fN);
+            settDataObjectValue(content as string);
+            setAPIFunctionCalled(true);
+          };
+          reader.readAsText(file as File);
+        });
+      } else {
+        setError("Uplaoding Files or Fill the Text Field");
       }
     }
   };

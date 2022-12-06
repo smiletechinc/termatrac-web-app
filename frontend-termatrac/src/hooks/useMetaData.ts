@@ -14,6 +14,7 @@ export default function useModelAdded() {
 
   const [isDataObject, setIsDataObject] = useState(false);
   const [dataObjectData, setDataObjectData] = useState([]);
+  const [isDataAdded, setIsDataAdded] = useState(false);
 
   const modelObjectFetched: any = () => {
     setIsModelObject(false);
@@ -44,7 +45,9 @@ export default function useModelAdded() {
       console.log("dataAddedRef", dataAddedRef);
       dataAddedRef
         .set(updatedModel)
-        .then(() => console.log("data added"))
+        .then(() => {
+          console.log("data added", setIsDataAdded(true));
+        })
         .catch((error) => console.log("error", error));
     } catch (error) {
       console.log("Error Finding Database");
@@ -52,5 +55,12 @@ export default function useModelAdded() {
     // }
   };
 
-  return { modelObjectFetched, modelAddedFunction, isModelObject, modelObjectData };
+  return {
+    modelObjectFetched,
+    modelAddedFunction,
+    isModelObject,
+    setIsDataAdded,
+    isDataAdded,
+    modelObjectData
+  };
 }
