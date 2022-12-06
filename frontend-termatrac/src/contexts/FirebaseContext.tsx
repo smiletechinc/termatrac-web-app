@@ -1,16 +1,17 @@
 /* eslint-disable import/no-duplicates */
-import { createContext, ReactNode, useEffect, useReducer, useState } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
+import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import "firebase/database";
 // @types
-import { ActionMap, AuthState, AuthUser, FirebaseContextType } from '../@types/authentication';
+import { ActionMap, AuthState, AuthUser, FirebaseContextType } from "../@types/authentication";
 //
-import { firebaseConfig } from '../config';
+import { firebaseConfig } from "../config";
 
 // ----------------------------------------------------------------------
 
-const ADMIN_EMAILS = ['demo@minimals.cc'];
+const ADMIN_EMAILS = ["demo@minimals.cc"];
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -24,7 +25,7 @@ const initialState: AuthState = {
 };
 
 enum Types {
-  Initial = 'INITIALISE'
+  Initial = "INITIALISE"
 }
 
 type FirebaseAuthPayload = {
@@ -37,7 +38,7 @@ type FirebaseAuthPayload = {
 type FirebaseActions = ActionMap<FirebaseAuthPayload>[keyof ActionMap<FirebaseAuthPayload>];
 
 const reducer = (state: AuthState, action: FirebaseActions) => {
-  if (action.type === 'INITIALISE') {
+  if (action.type === "INITIALISE") {
     const { isAuthenticated, user } = action.payload;
     return {
       ...state,
@@ -60,7 +61,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
     () =>
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          const docRef = firebase.firestore().collection('users').doc(user.uid);
+          const docRef = firebase.firestore().collection("users").doc(user.uid);
           docRef
             .get()
             .then((doc) => {
@@ -111,7 +112,7 @@ function AuthProvider({ children }: { children: ReactNode }) {
       .then((res) => {
         firebase
           .firestore()
-          .collection('users')
+          .collection("users")
           .doc(res.user?.uid)
           .set({
             uid: res.user?.uid,
@@ -134,20 +135,20 @@ function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{
         ...state,
-        method: 'firebase',
+        method: "firebase",
         user: {
           id: auth.uid,
           email: auth.email,
           photoURL: auth.photoURL || profile?.photoURL,
           displayName: auth.displayName || profile?.displayName,
-          role: ADMIN_EMAILS.includes(auth.email) ? 'admin' : 'user',
-          phoneNumber: auth.phoneNumber || profile?.phoneNumber || '',
-          country: profile?.country || '',
-          address: profile?.address || '',
-          state: profile?.state || '',
-          city: profile?.city || '',
-          zipCode: profile?.zipCode || '',
-          about: profile?.about || '',
+          role: ADMIN_EMAILS.includes(auth.email) ? "admin" : "user",
+          phoneNumber: auth.phoneNumber || profile?.phoneNumber || "",
+          country: profile?.country || "",
+          address: profile?.address || "",
+          state: profile?.state || "",
+          city: profile?.city || "",
+          zipCode: profile?.zipCode || "",
+          about: profile?.about || "",
           isPublic: profile?.isPublic || false
         },
         login,

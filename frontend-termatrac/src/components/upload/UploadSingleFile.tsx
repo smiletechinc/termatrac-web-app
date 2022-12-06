@@ -1,35 +1,35 @@
-import { isString } from 'lodash';
-import { useDropzone, DropzoneOptions } from 'react-dropzone';
+import { isString } from "lodash";
+import { useDropzone, DropzoneOptions } from "react-dropzone";
 // material
-import { alpha, styled } from '@mui/material/styles';
-import { Box, Theme, Typography, Paper } from '@mui/material';
-import { SxProps } from '@mui/system';
+import { alpha, styled } from "@mui/material/styles";
+import { Box, Theme, Typography, Paper } from "@mui/material";
+import { SxProps } from "@mui/system";
 // utils
-import { fData } from '../../utils/formatNumber';
+import { fData } from "../../utils/formatNumber";
 //
-import { UploadIllustration } from '../../assets';
+import { UploadIllustration } from "../../assets";
 
 // ----------------------------------------------------------------------
 
-const DropZoneStyle = styled('div')(({ theme }) => ({
-  outline: 'none',
-  display: 'flex',
-  overflow: 'hidden',
-  textAlign: 'center',
-  position: 'relative',
-  alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center',
+const DropZoneStyle = styled("div")(({ theme }) => ({
+  outline: "none",
+  display: "flex",
+  overflow: "hidden",
+  textAlign: "center",
+  position: "relative",
+  alignItems: "center",
+  flexDirection: "column",
+  justifyContent: "center",
   padding: theme.spacing(5, 0),
   borderRadius: theme.shape.borderRadius,
-  transition: theme.transitions.create('padding'),
+  transition: theme.transitions.create("padding"),
   backgroundColor: theme.palette.background.neutral,
   border: `1px dashed ${theme.palette.grey[500_32]}`,
-  '&:hover': {
+  "&:hover": {
     opacity: 0.72,
-    cursor: 'pointer'
+    cursor: "pointer"
   },
-  [theme.breakpoints.up('md')]: { textAlign: 'left', flexDirection: 'row' }
+  [theme.breakpoints.up("md")]: { textAlign: "left", flexDirection: "row" }
 }));
 
 // ----------------------------------------------------------------------
@@ -63,7 +63,7 @@ export default function UploadSingleFile({
         py: 1,
         px: 2,
         mt: 3,
-        borderColor: 'error.light',
+        borderColor: "error.light",
         bgcolor: (theme) => alpha(theme.palette.error.main, 0.08)
       }}
     >
@@ -86,17 +86,17 @@ export default function UploadSingleFile({
   );
 
   return (
-    <Box sx={{ width: '100%', ...sx }}>
+    <Box sx={{ width: "100%", ...sx }}>
       <DropZoneStyle
         {...getRootProps()}
         sx={{
           ...(isDragActive && { opacity: 0.72 }),
           ...((isDragReject || error) && {
-            color: 'error.main',
-            borderColor: 'error.light',
-            bgcolor: 'error.lighter'
+            color: "error.main",
+            borderColor: "error.light",
+            bgcolor: "error.lighter"
           }),
-          ...(file && { padding: '12% 0' })
+          ...(file && { padding: "12% 0" })
         }}
       >
         <input {...getInputProps()} />
@@ -108,12 +108,12 @@ export default function UploadSingleFile({
             Drop or Select file
           </Typography>
 
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Drop files here or click&nbsp;
             <Typography
               variant="body2"
               component="span"
-              sx={{ color: 'primary.main', textDecoration: 'underline' }}
+              sx={{ color: "primary.main", textDecoration: "underline" }}
             >
               browse
             </Typography>
@@ -129,10 +129,10 @@ export default function UploadSingleFile({
             sx={{
               top: 8,
               borderRadius: 1,
-              objectFit: 'cover',
-              position: 'absolute',
-              width: 'calc(100% - 16px)',
-              height: 'calc(100% - 16px)'
+              objectFit: "cover",
+              position: "absolute",
+              width: "calc(100% - 16px)",
+              height: "calc(100% - 16px)"
             }}
           />
         )}
