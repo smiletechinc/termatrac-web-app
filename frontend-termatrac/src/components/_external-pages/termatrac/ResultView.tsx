@@ -30,6 +30,7 @@ import { fPercent, fNumber } from "../../../utils/formatNumber";
 import mockData from "../../../utils/mock-data";
 import useModelAdded from "../../../hooks/useMetaData";
 import ResultTable from "./ResultTable";
+import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
@@ -78,16 +79,16 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
   };
   const { modelAddedFunction, setIsDataAdded, isDataAdded } = useModelAdded();
   const [valueArray, setValueArray] = useState<Array<Object>>([]);
-  const [openUploadModal, setOpenUploadModal] = useState(false);
+  const [upload, setUpload] = useState(false);
 
   let objValue = {};
   let RESULT_TABLE: any;
 
-  // useEffect(() => {
-  //   if (isDataAdded) {
-  //     alert("Data Saved in Database");
-  //   }
-  // }, [isDataAdded]);
+  useEffect(() => {
+    if (isDataAdded) {
+      setUpload(false);
+    }
+  }, [isDataAdded]);
   const BASIC_TABLE = [
     createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
     createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
@@ -128,6 +129,7 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
   const saveButtonFunction = async () => {
     if (Object.values(resultDataView).length > 0) {
       // alert("Wait for Data Saved");
+      setUpload(true);
       console.log("tyy", typeof resultDataView);
       console.log("resultDataView", resultDataView);
       Object.values(resultDataView).map((element: any) => {
@@ -139,7 +141,6 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
           percantage: fPercent(element.Data.Accuracy * 100),
           fileName: element.fileName
         };
-        setOpenUploadModal(true);
         modelAddedFunction(modelObject);
       });
     } else {
@@ -165,14 +166,24 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
         </Typography>
       )}
       <MotionInView variants={varFadeInRight}>
-        <Button
+        {/* <Button
           size="large"
           variant="contained"
           onClick={saveButtonFunction}
           endIcon={<Icon icon={iconUpload} width={24} height={24} />}
         >
           Save
-        </Button>
+        </Button> */}
+        <LoadingButton
+          loading={upload}
+          loadingPosition="start"
+          size="large"
+          variant="contained"
+          onClick={saveButtonFunction}
+          endIcon={<Icon icon={iconUpload} width={24} height={24} />}
+        >
+          Save
+        </LoadingButton>
       </MotionInView>
       {/* <MotionInView variants={varFadeInUp}>
         <DialogAnimate
