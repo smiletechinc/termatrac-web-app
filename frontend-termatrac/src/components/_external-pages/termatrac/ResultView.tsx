@@ -3,31 +3,10 @@ import { Icon } from "@iconify/react";
 import iconUpload from "@iconify/icons-ic/file-upload";
 
 // material
-// import { useTheme, styled } from "@mui/material/styles";
-import { motion } from "framer-motion";
-import { alpha, styled, useTheme } from "@mui/material/styles";
-
-import {
-  Box,
-  LinearProgress,
-  CardContent,
-  Button,
-  Paper,
-  Typography,
-  Stack,
-  GridSize
-} from "@mui/material";
-import {
-  varFadeInRight,
-  MotionInView,
-  DialogAnimate,
-  varBounceIn,
-  varFadeInUp
-} from "../../animate";
-import { Block } from "../../../pages/components-overview/Block";
+import { Typography, Stack } from "@mui/material";
+import { varFadeInRight, MotionInView } from "../../animate";
 // utils
 import { fPercent, fNumber } from "../../../utils/formatNumber";
-import mockData from "../../../utils/mock-data";
 import useModelAdded from "../../../hooks/useMetaData";
 import ResultTable from "./ResultTable";
 import { LoadingButton } from "@mui/lab";
@@ -36,30 +15,8 @@ import { LoadingButton } from "@mui/lab";
 
 const LABEL = ["Development", "Design", "Marketing"];
 
-const MOCK_SKILLS = [...Array(3)].map((_, index) => ({
-  label: LABEL[index],
-  value: mockData.number.percent(index)
-}));
-
-const OPTIONS = [
-  "Show some love to Material-UI",
-  "Show all notification content",
-  "Hide sensitive notification content",
-  "Hide all notification content"
-];
-
-const ContainerStyle = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(5),
-  borderRadius: theme.shape.borderRadiusSm,
-  border: `solid 1px ${theme.palette.divider}`,
-  backgroundColor: theme.palette.grey[theme.palette.mode === "light" ? 100 : 800]
-}));
-
 export interface SearchHeaderProps {
   resultDataView: any;
-}
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
 }
 function createData1(
   Sr_No: number,
@@ -71,12 +28,6 @@ function createData1(
   return { Sr_No, File_Name, Class, Accurate, Detail };
 }
 const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
-  type ProgressItemProps = {
-    progress: {
-      label: string;
-      value: number;
-    };
-  };
   const { modelAddedFunction, setIsDataAdded, isDataAdded } = useModelAdded();
   const [valueArray, setValueArray] = useState<Array<Object>>([]);
   const [upload, setUpload] = useState(false);
@@ -87,19 +38,9 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
   useEffect(() => {
     if (isDataAdded) {
       setUpload(false);
+      setIsDataAdded(false);
     }
   }, [isDataAdded]);
-  const BASIC_TABLE = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9)
-  ];
-
-  useEffect(() => {
-    console.log("val", valueArray);
-  }, [valueArray]);
 
   useEffect(() => {
     if (Object.values(resultDataView).length > 0) {
@@ -128,7 +69,6 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
 
   const saveButtonFunction = async () => {
     if (Object.values(resultDataView).length > 0) {
-      // alert("Wait for Data Saved");
       setUpload(true);
       console.log("tyy", typeof resultDataView);
       console.log("resultDataView", resultDataView);
@@ -166,14 +106,6 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
         </Typography>
       )}
       <MotionInView variants={varFadeInRight}>
-        {/* <Button
-          size="large"
-          variant="contained"
-          onClick={saveButtonFunction}
-          endIcon={<Icon icon={iconUpload} width={24} height={24} />}
-        >
-          Save
-        </Button> */}
         <LoadingButton
           loading={upload}
           loadingPosition="start"
@@ -185,31 +117,6 @@ const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
           Save
         </LoadingButton>
       </MotionInView>
-      {/* <MotionInView variants={varFadeInUp}>
-        <DialogAnimate
-          open={openUploadModal}
-          onClose={() => setOpenUploadModal(false)}
-          animate={varBounceIn}
-        >
-          <Box
-            component={motion.div}
-            animate={{
-              scale: [1.2, 1, 1, 1.2, 1.2],
-              rotate: [270, 0, 0, 270, 270],
-              opacity: [0.25, 1, 1, 1, 0.25],
-              borderRadius: ["25%", "25%", "50%", "50%", "25%"]
-            }}
-            transition={{ ease: "linear", duration: 3.2, repeat: Infinity }}
-            sx={{
-              width: 100,
-              height: 100,
-              borderRadius: "25%",
-              position: "absolute",
-              border: (theme) => `solid 3px ${alpha(theme.palette.primary.dark, 0.24)}`
-            }}
-          />
-        </DialogAnimate>
-      </MotionInView> */}
     </Stack>
   );
 };

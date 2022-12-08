@@ -1,15 +1,5 @@
 // material
-import {
-  Table,
-  Box,
-  Typography,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableContainer
-} from "@mui/material";
-import { useEffect } from "react";
+import { Table, TableRow, TableHead, TableBody, TableCell, TableContainer } from "@mui/material";
 // components
 import Scrollbar from "../../Scrollbar";
 
