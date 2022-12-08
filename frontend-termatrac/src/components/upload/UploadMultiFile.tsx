@@ -1,11 +1,11 @@
-import { isString } from 'lodash';
-import { Icon } from '@iconify/react';
-import { useDropzone, DropzoneOptions } from 'react-dropzone';
-import fileFill from '@iconify/icons-eva/file-fill';
-import closeFill from '@iconify/icons-eva/close-fill';
-import { motion, AnimatePresence } from 'framer-motion';
+import { isString } from "lodash";
+import { Icon } from "@iconify/react";
+import { useDropzone, DropzoneOptions } from "react-dropzone";
+import fileFill from "@iconify/icons-eva/file-fill";
+import closeFill from "@iconify/icons-eva/close-fill";
+import { motion, AnimatePresence } from "framer-motion";
 // material
-import { alpha, Theme, styled } from '@mui/material/styles';
+import { alpha, Theme, styled } from "@mui/material/styles";
 import {
   Box,
   List,
@@ -17,30 +17,30 @@ import {
   ListItemIcon,
   ListItemText,
   ListItemSecondaryAction
-} from '@mui/material';
-import { SxProps } from '@mui/system';
+} from "@mui/material";
+import { SxProps } from "@mui/system";
 // utils
-import { fData } from '../../utils/formatNumber';
+import { fData } from "../../utils/formatNumber";
 //
-import { MIconButton } from '../@material-extend';
-import { varFadeInRight } from '../animate';
-import { UploadIllustration } from '../../assets';
+import { MIconButton } from "../@material-extend";
+import { varFadeInRight } from "../animate";
+import { UploadIllustration } from "../../assets";
 
 // ----------------------------------------------------------------------
 
-const DropZoneStyle = styled('div')(({ theme }) => ({
-  outline: 'none',
-  display: 'flex',
-  textAlign: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
-  justifyContent: 'center',
+const DropZoneStyle = styled("div")(({ theme }) => ({
+  outline: "none",
+  display: "flex",
+  textAlign: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  justifyContent: "center",
   padding: theme.spacing(5, 1),
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.background.neutral,
   border: `1px dashed ${theme.palette.grey[500_32]}`,
-  '&:hover': { opacity: 0.72, cursor: 'pointer' },
-  [theme.breakpoints.up('md')]: { textAlign: 'left', flexDirection: 'row' }
+  "&:hover": { opacity: 0.72, cursor: "pointer" },
+  [theme.breakpoints.up("md")]: { textAlign: "left", flexDirection: "row" }
 }));
 
 // ----------------------------------------------------------------------
@@ -60,7 +60,7 @@ interface UploadMultiFileProps extends DropzoneOptions {
 }
 
 const getFileData = (file: CustomFile | string) => {
-  if (typeof file === 'string') {
+  if (typeof file === "string") {
     return {
       key: file
     };
@@ -94,7 +94,7 @@ export default function UploadMultiFile({
         py: 1,
         px: 2,
         mt: 3,
-        borderColor: 'error.light',
+        borderColor: "error.light",
         bgcolor: (theme) => alpha(theme.palette.error.main, 0.08)
       }}
     >
@@ -117,15 +117,15 @@ export default function UploadMultiFile({
   );
 
   return (
-    <Box sx={{ width: '100%', ...sx }}>
+    <Box sx={{ width: "100%", ...sx }}>
       <DropZoneStyle
         {...getRootProps()}
         sx={{
           ...(isDragActive && { opacity: 0.72 }),
           ...((isDragReject || error) && {
-            color: 'error.main',
-            borderColor: 'error.light',
-            bgcolor: 'error.lighter'
+            color: "error.main",
+            borderColor: "error.light",
+            bgcolor: "error.lighter"
           })
         }}
       >
@@ -138,12 +138,12 @@ export default function UploadMultiFile({
             Drop or Select file
           </Typography>
 
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Drop files here or click&nbsp;
             <Typography
               variant="body2"
               component="span"
-              sx={{ color: 'primary.main', textDecoration: 'underline' }}
+              sx={{ color: "primary.main", textDecoration: "underline" }}
             >
               browse
             </Typography>
@@ -171,26 +171,26 @@ export default function UploadMultiFile({
                     width: 80,
                     height: 80,
                     borderRadius: 1.5,
-                    overflow: 'hidden',
-                    position: 'relative',
-                    display: 'inline-flex'
+                    overflow: "hidden",
+                    position: "relative",
+                    display: "inline-flex"
                   }}
                 >
                   <Paper
                     variant="outlined"
                     component="img"
                     src={isString(file) ? file : preview}
-                    sx={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute' }}
+                    sx={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute" }}
                   />
-                  <Box sx={{ top: 6, right: 6, position: 'absolute' }}>
+                  <Box sx={{ top: 6, right: 6, position: "absolute" }}>
                     <MIconButton
                       size="small"
                       onClick={() => onRemove(file)}
                       sx={{
-                        p: '2px',
-                        color: 'common.white',
+                        p: "2px",
+                        color: "common.white",
                         bgcolor: (theme) => alpha(theme.palette.grey[900], 0.72),
-                        '&:hover': {
+                        "&:hover": {
                           bgcolor: (theme) => alpha(theme.palette.grey[900], 0.48)
                         }
                       }}
@@ -213,7 +213,7 @@ export default function UploadMultiFile({
                   px: 2,
                   borderRadius: 1,
                   border: (theme) => `solid 1px ${theme.palette.divider}`,
-                  bgcolor: 'background.paper'
+                  bgcolor: "background.paper"
                 }}
               >
                 <ListItemIcon>
@@ -221,9 +221,9 @@ export default function UploadMultiFile({
                 </ListItemIcon>
                 <ListItemText
                   primary={isString(file) ? file : name}
-                  secondary={isString(file) ? '' : fData(size || 0)}
-                  primaryTypographyProps={{ variant: 'subtitle2' }}
-                  secondaryTypographyProps={{ variant: 'caption' }}
+                  secondary={isString(file) ? "" : fData(size || 0)}
+                  primaryTypographyProps={{ variant: "subtitle2" }}
+                  secondaryTypographyProps={{ variant: "caption" }}
                 />
                 <ListItemSecondaryAction>
                   <MIconButton edge="end" size="small" onClick={() => onRemove(file)}>
@@ -241,7 +241,7 @@ export default function UploadMultiFile({
           <Button onClick={onRemoveAll} sx={{ mr: 1.5 }}>
             Remove all
           </Button>
-          <Button variant="contained">Upload files</Button>
+          <Button variant="contained">Proceed</Button>
         </Stack>
       )}
     </Box>

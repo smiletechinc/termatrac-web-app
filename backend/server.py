@@ -3,8 +3,9 @@ import json
 import pickle
 import pandas as pd
 import numpy as np
+from flask_cors import CORS, cross_origin
 app = Flask(__name__)
-
+cors = CORS(app)
 
 
 

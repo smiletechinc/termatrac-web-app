@@ -1,6 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 // material
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import {
   Box,
   Card,
@@ -11,15 +11,15 @@ import {
   Typography,
   CardContent,
   FormControlLabel
-} from '@mui/material';
+} from "@mui/material";
 // routes
-import { PATH_PAGE } from '../../../routes/paths';
+import { PATH_PAGE } from "../../../routes/paths";
 // utils
-import { fData } from '../../../utils/formatNumber';
+import { fData } from "../../../utils/formatNumber";
 // components
-import Page from '../../../components/Page';
-import HeaderBreadcrumbs from '../../../components/HeaderBreadcrumbs';
-import { UploadAvatar, UploadMultiFile, UploadSingleFile } from '../../../components/upload';
+import Page from "../../../components/Page";
+import HeaderBreadcrumbs from "../../../components/HeaderBreadcrumbs";
+import { UploadAvatar, UploadMultiFile, UploadSingleFile } from "../../../components/upload";
 
 // ----------------------------------------------------------------------
 
@@ -83,13 +83,13 @@ export default function Upload() {
           pt: 6,
           pb: 1,
           mb: 10,
-          bgcolor: (theme) => (theme.palette.mode === 'light' ? 'grey.200' : 'grey.800')
+          bgcolor: (theme) => (theme.palette.mode === "light" ? "grey.200" : "grey.800")
         }}
       >
         <Container maxWidth="lg">
           <HeaderBreadcrumbs
             heading="Upload"
-            links={[{ name: 'Components', href: PATH_PAGE.components }, { name: 'Upload' }]}
+            links={[{ name: "Components", href: PATH_PAGE.components }, { name: "Upload" }]}
             moreLink="https://react-dropzone.js.org/#section-basic-example"
           />
         </Container>
@@ -142,10 +142,10 @@ export default function Upload() {
                     variant="caption"
                     sx={{
                       mt: 2,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary'
+                      mx: "auto",
+                      display: "block",
+                      textAlign: "center",
+                      color: "text.secondary"
                     }}
                   >
                     Allowed *.jpeg, *.jpg, *.png, *.gif
