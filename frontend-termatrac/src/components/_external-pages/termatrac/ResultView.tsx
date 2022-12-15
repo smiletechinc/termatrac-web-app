@@ -1,15 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import iconUpload from "@iconify/icons-ic/file-upload";
-// material
-import { Button, Typography, Stack } from "@mui/material";
 
-import { Box, LinearProgress } from "@mui/material";
-import { varFadeInRight, MotionInView } from "../../animate";
+// material
+// import { useTheme, styled } from "@mui/material/styles";
+import { motion } from "framer-motion";
+import { alpha, styled, useTheme } from "@mui/material/styles";
+
+import {
+  Box,
+  LinearProgress,
+  CardContent,
+  Button,
+  Paper,
+  Typography,
+  Stack,
+  GridSize
+} from "@mui/material";
+import {
+  varFadeInRight,
+  MotionInView,
+  DialogAnimate,
+  varBounceIn,
+  varFadeInUp
+} from "../../animate";
+import { Block } from "../../../pages/components-overview/Block";
 // utils
 import { fPercent, fNumber } from "../../../utils/formatNumber";
 import mockData from "../../../utils/mock-data";
 import useModelAdded from "../../../hooks/useMetaData";
+import ResultTable from "./ResultTable";
+import { LoadingButton } from "@mui/lab";
 
 // ----------------------------------------------------------------------
 
@@ -27,58 +48,105 @@ const OPTIONS = [
   "Hide all notification content"
 ];
 
-export interface SearchHeaderProps {
-  resultString: string;
-  resultData: any;
-  modelName: string;
-  modelData: any;
-}
+const ContainerStyle = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(5),
+  borderRadius: theme.shape.borderRadiusSm,
+  border: `solid 1px ${theme.palette.divider}`,
+  backgroundColor: theme.palette.grey[theme.palette.mode === "light" ? 100 : 800]
+}));
 
-const ResultView: React.FC<SearchHeaderProps> = ({
-  resultString,
-  resultData,
-  modelName,
-  modelData
-}) => {
+export interface SearchHeaderProps {
+  resultDataView: any;
+}
+function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
+  return { name, calories, fat, carbs, protein };
+}
+function createData1(
+  Sr_No: number,
+  File_Name: string,
+  Class: string,
+  Accurate: string,
+  Detail: string
+) {
+  return { Sr_No, File_Name, Class, Accurate, Detail };
+}
+const ResultView: React.FC<SearchHeaderProps> = ({ resultDataView }) => {
   type ProgressItemProps = {
     progress: {
       label: string;
       value: number;
     };
   };
-  const { modelAddedFunction } = useModelAdded();
+  const { modelAddedFunction, setIsDataAdded, isDataAdded } = useModelAdded();
+  const [valueArray, setValueArray] = useState<Array<Object>>([]);
+  const [upload, setUpload] = useState(false);
+
+  let objValue = {};
+  let RESULT_TABLE: any;
+
+  useEffect(() => {
+    if (isDataAdded) {
+      setUpload(false);
+    }
+  }, [isDataAdded]);
+  const BASIC_TABLE = [
+    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+    createData("Eclair", 262, 16.0, 24, 6.0),
+    createData("Cupcake", 305, 3.7, 67, 4.3),
+    createData("Gingerbread", 356, 16.0, 49, 3.9)
+  ];
+
+  useEffect(() => {
+    console.log("val", valueArray);
+  }, [valueArray]);
+
+  useEffect(() => {
+    if (Object.values(resultDataView).length > 0) {
+      let arr: Array<object> = [];
+      Object.values(resultDataView).forEach((element: any) => {
+        objValue = {
+          filName: element.fileName,
+          class: element.Data.Class,
+          accurate: `${fPercent(element.Data.Accuracy * 100)}%`,
+          detail: `Detected termite type is of Class ${element.Data.Class} with accuracy of ${element.Data.Accuracy}`
+        };
+        RESULT_TABLE = [
+          createData1(
+            1,
+            `${Object.values(objValue)[0]}`,
+            `${Object.values(objValue)[1]}`,
+            `${Object.values(objValue)[2]}`,
+            `${Object.values(objValue)[3]}`
+          )
+        ];
+        arr.push(RESULT_TABLE);
+      });
+      setValueArray(arr);
+    }
+  }, [resultDataView]);
 
   const saveButtonFunction = async () => {
-    const modelObject = {
-      modelData: modelData,
-      modelName: modelName,
-      modelResult: resultData,
-      percantage: fPercent(resultData.Accuracy * 100)
-    };
-    modelAddedFunction(modelObject);
+    if (Object.values(resultDataView).length > 0) {
+      // alert("Wait for Data Saved");
+      setUpload(true);
+      console.log("tyy", typeof resultDataView);
+      console.log("resultDataView", resultDataView);
+      Object.values(resultDataView).map((element: any) => {
+        console.log("element", element.modelData);
+        const modelObject = {
+          modelData: element.modelData,
+          modelName: element.modelNameValue,
+          modelResult: element.Data,
+          percantage: fPercent(element.Data.Accuracy * 100),
+          fileName: element.fileName
+        };
+        modelAddedFunction(modelObject);
+      });
+    } else {
+      alert("No Data for saving");
+    }
   };
-
-  function ProgressItem({ progress }: ProgressItemProps) {
-    const { label, value } = progress;
-    return (
-      <Box sx={{ mt: 3 }}>
-        <Box sx={{ mb: 1.5, display: "flex", alignItems: "center" }}>
-          <Typography variant="subtitle2">{label}&nbsp;-&nbsp;</Typography>
-          <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            {fPercent(value)}
-          </Typography>
-        </Box>
-        <LinearProgress
-          variant="determinate"
-          value={value}
-          sx={{
-            "& .MuiLinearProgress-bar": { bgcolor: "grey.700" },
-            "&.MuiLinearProgress-determinate": { bgcolor: "divider" }
-          }}
-        />
-      </Box>
-    );
-  }
 
   return (
     <Stack spacing={5}>
@@ -86,36 +154,62 @@ const ResultView: React.FC<SearchHeaderProps> = ({
         <Typography variant="h3">Result Summary</Typography>
       </MotionInView>
 
-      <MotionInView variants={varFadeInRight}>
+      {Object.values(resultDataView).length > 0 ? (
+        <ResultTable tableData={valueArray} />
+      ) : (
         <Typography
           sx={{
             color: (theme) => (theme.palette.mode === "light" ? "text.secondary" : "common.white")
           }}
         >
-          {resultData && resultData.Class
-            ? `Detected termite type is of Class ${resultData.Class} with accuracy of ${resultData.Accuracy}`
-            : `Result Wil be displayed here`}
+          Result Wil be displayed here
         </Typography>
-      </MotionInView>
-
-      {resultString && (
-        <Box sx={{ my: 5 }}>
-          <MotionInView key={"Accuracy"} variants={varFadeInRight}>
-            <ProgressItem progress={{ label: "Accuracy", value: resultData.Accuracy * 100 }} />
-          </MotionInView>
-        </Box>
       )}
-
       <MotionInView variants={varFadeInRight}>
-        <Button
+        {/* <Button
           size="large"
           variant="contained"
           onClick={saveButtonFunction}
           endIcon={<Icon icon={iconUpload} width={24} height={24} />}
         >
           Save
-        </Button>
+        </Button> */}
+        <LoadingButton
+          loading={upload}
+          loadingPosition="start"
+          size="large"
+          variant="contained"
+          onClick={saveButtonFunction}
+          endIcon={<Icon icon={iconUpload} width={24} height={24} />}
+        >
+          Save
+        </LoadingButton>
       </MotionInView>
+      {/* <MotionInView variants={varFadeInUp}>
+        <DialogAnimate
+          open={openUploadModal}
+          onClose={() => setOpenUploadModal(false)}
+          animate={varBounceIn}
+        >
+          <Box
+            component={motion.div}
+            animate={{
+              scale: [1.2, 1, 1, 1.2, 1.2],
+              rotate: [270, 0, 0, 270, 270],
+              opacity: [0.25, 1, 1, 1, 0.25],
+              borderRadius: ["25%", "25%", "50%", "50%", "25%"]
+            }}
+            transition={{ ease: "linear", duration: 3.2, repeat: Infinity }}
+            sx={{
+              width: 100,
+              height: 100,
+              borderRadius: "25%",
+              position: "absolute",
+              border: (theme) => `solid 3px ${alpha(theme.palette.primary.dark, 0.24)}`
+            }}
+          />
+        </DialogAnimate>
+      </MotionInView> */}
     </Stack>
   );
 };

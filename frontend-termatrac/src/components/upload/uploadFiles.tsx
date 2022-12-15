@@ -130,7 +130,7 @@ export default function UploadFiles({
             >
               browse
             </Typography>
-            &nbsp;thorough your machine
+            &nbsp;thorough your device
           </Typography>
         </Box>
       </DropZoneStyle>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // material
 import { styled } from "@mui/material/styles";
 import { Grid, Container } from "@mui/material";
@@ -23,10 +23,10 @@ const RootStyle = styled(Page)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Termatrac() {
-  const [resultString, setResultString] = useState("");
-  const [resultData, setResultData] = useState({});
-  const [modelDataValue, setModelDataValue] = useState({});
-  const [modelNameValue, setModelNameValue] = useState("");
+  // const [resultString, setResultArray] = useState("");
+  const [resultDataArray, setResultDatArray] = useState([]);
+  // const [modelDataValue, setModelDataValue] = useState({});
+  // const [modelNameValue, setModelNameValue] = useState("");
 
   return (
     <RootStyle title="Contact us | Minimal-UI">
@@ -34,18 +34,18 @@ export default function Termatrac() {
         <Grid container spacing={10}>
           <Grid item xs={12} md={6}>
             <SearchView
-              setResultString={setResultString}
-              setResultData={setResultData}
-              setModelData={setModelDataValue}
-              setModelNameValue={setModelNameValue}
+              setResultArrayValues={setResultDatArray}
+              // setResultData={setResultData}
+              // setModelData={setModelDataValue}
+              // setModelNameValue={setModelNameValue}
             />
           </Grid>
           <Grid item xs={12} md={6}>
             <ResultView
-              resultString={resultString}
-              resultData={resultData}
-              modelName={modelNameValue}
-              modelData={modelDataValue}
+              resultDataView={resultDataArray}
+              // resultData={resultData}
+              // modelName={modelNameValue}
+              // modelData={modelDataValue}
             />
           </Grid>
         </Grid>
