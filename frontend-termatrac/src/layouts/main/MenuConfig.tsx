@@ -14,15 +14,15 @@ const ICON_SIZE = {
 };
 
 const menuConfig = [
-  {
-    title: "Termatrac",
-    icon: <Icon icon={homeFill} {...ICON_SIZE} />,
-    path: PATH_PAGE.termatrac
-  },
+  // {
+  //   title: "Termatrac",
+  //   icon: <Icon icon={homeFill} {...ICON_SIZE} />,
+  //   path: PATH_PAGE.termatrac
+  // },
   {
     title: "Home",
     icon: <Icon icon={homeFill} {...ICON_SIZE} />,
-    path: "/"
+    path: PATH_PAGE.termatrac
   },
   {
     title: "History",
