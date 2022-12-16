@@ -127,7 +127,6 @@ def infer_naive(data):
 
 
 @app.route('/infer_termite', methods = ['POST'])
-@cross_origin()
 def infer():
 
     json_data = request.json
