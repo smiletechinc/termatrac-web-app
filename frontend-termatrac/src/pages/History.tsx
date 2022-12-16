@@ -31,12 +31,6 @@ export default function History() {
     }
   }, [isModelObject]);
 
-  useEffect(() => {
-    if (modelObjectData && Object.values(modelObjectData).length > 0) {
-      // console.log("hello", Object.values(modelObjectData));
-    }
-  }, [modelObjectData]);
-
   return (
     <RootStyle title="Contact us | Minimal-UI">
       <Container sx={{ my: 10 }}>
@@ -44,7 +38,6 @@ export default function History() {
           <Grid container spacing={4} my={12}>
             {Object.values(modelObjectData).map((value: any) => {
               let n = value.percantage.split("%");
-              const CHART_DATA = [Number(n[0])];
               return (
                 <HistoryDisplayCard
                   modelName={value.modelName}

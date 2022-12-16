@@ -2,7 +2,6 @@ import { useState, useEffect, SetStateAction } from "react";
 import { firebaseConfig } from "../config";
 import firebase from "firebase/app";
 import "firebase/database";
-// import { get, getDatabase, ref } from "firebase/database";
 
 // ----------------------------------------------------------------------
 
@@ -11,9 +10,6 @@ export default function useModelAdded() {
 
   const [isModelObject, setIsModelObject] = useState(false);
   const [modelObjectData, setModelObjectData] = useState({});
-
-  const [isDataObject, setIsDataObject] = useState(false);
-  const [dataObjectData, setDataObjectData] = useState([]);
   const [isDataAdded, setIsDataAdded] = useState(false);
 
   const modelObjectFetched: any = () => {
